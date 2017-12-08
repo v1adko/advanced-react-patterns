@@ -6,10 +6,12 @@ function App() {
   return (
     <Toggle
       onToggle={on => console.log('toggle', on)}
-      render={({ on, toggle }) => (
+      render={({ on, toggle, togglerProps }) => (
         <div>
-          <Switch on={on} onClick={toggle} />
+          <Switch on={on} {...togglerProps} />
           {on ? 'on' : 'off'}
+          <hr />
+          <button {...togglerProps}>{on ? 'on' : 'off'}</button>
         </div>
       )}
     />
