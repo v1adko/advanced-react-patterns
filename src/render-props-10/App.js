@@ -9,12 +9,14 @@ class App extends React.Component {
 
   handleToggle = () => {
     this.setState(({ timesClicked, on }) => ({
-      thimesClicked: timesClicked + 1,
+      timesClicked: timesClicked + 1,
       on: timesClicked >= 4 ? false : !on
     }));
   };
 
-  handleReset;
+  handleReset = () => {
+    this.setState(this.initialState);
+  };
 
   render() {
     const { timesClicked, on } = this.state;

@@ -11,32 +11,46 @@ class Toggle extends React.Component {
   initialState = { on: this.props.defaultOn };
   state = this.initialState;
 
-  toggle = () =>
-    this.setState(
-      ({ on }) => ({ on: !on }),
-      () => {
-        this.props.onToggle(this.state.on);
-      }
-    );
+  toggle = () => {
+    if (this.isOnControlled()) {
+      this.props.onToggle(!this.props.on);
+    } else {
+      this.setState(
+        ({ on }) => ({ on: !on }),
+        () => {
+          this.props.onToggle(this.state.on);
+        }
+      );
+    }
+  };
 
   reset = () => {
-    this.setState(this.initialState, () => {
-      this.props.onReset(this.state.on);
-    });
+    if (this.isOnControlled()) {
+      this.props.onReset(!this.props.on);
+    } else {
+      this.setState(this.initialState, () => {
+        this.props.onReset(this.state.on);
+      });
+    }
   };
 
   // #11 Prop collections + #12 Prop getters
   getTogglerProps = ({ onClick, ...props } = {}) => {
+    const on = this.isOnControlled() ? this.props.on : this.state.on;
     return {
-      'aria-expanded': this.state.on,
+      'aria-expanded': on,
       onClick: compose(onClick, this.toggle),
       ...props
     };
   };
 
+  isOnControlled() {
+    return this.props.on !== undefined;
+  }
+
   render() {
     return this.props.render({
-      on: this.state.on,
+      on: this.isOnControlled() ? this.props.on : this.state.on,
       toggle: this.toggle,
       reset: this.reset,
       getTogglerProps: this.getTogglerProps
