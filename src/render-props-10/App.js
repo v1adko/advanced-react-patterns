@@ -1,7 +1,10 @@
 import React from 'react';
+import Switch from './internal/Switch';
+import MyUpperCaseInput from './internal/MyUpperCaseInput';
+import Header from './internal/Header';
+import Post from './internal/Post';
 import Toggle from './Toggle';
-import Switch from './Switch';
-import MyUpperCaseInput from './MyUpperCaseInput';
+import ToggleProvider from './ToggleProvider';
 
 class App extends React.Component {
   initialState = { timesClicked: 0, on: false };
@@ -41,73 +44,93 @@ class App extends React.Component {
     </div>
   );
 
+  renderRenderPropsPart = () => (
+    <Toggle
+      defaultOn={true}
+      onToggle={on => console.log('toggle', on)}
+      onReset={on => console.log('reset', on)}
+      render={toggle => (
+        <div>
+          <Switch
+            {...toggle.getTogglerProps({
+              on: toggle.on
+            })}
+          />
+          {toggle.on ? "It's on!" : 'Off :('}
+          <br />
+          <button
+            {...toggle.getTogglerProps({
+              onClick: () => alert('Clicked!')
+            })}
+          >
+            {toggle.on ? 'on' : 'off'}
+          </button>
+          <br />
+          <button onClick={() => toggle.reset()}>Reset</button>
+        </div>
+      )}
+    />
+  );
+
+  // Lesson 14 controlled-component-props
+  renderControlledComponentsPart = (on, timesClicked) => (
+    <Toggle
+      on={on}
+      onToggle={this.handleToggle}
+      onReset={this.handleReset}
+      render={toggle => (
+        <div>
+          <Switch
+            {...toggle.getTogglerProps({
+              on: toggle.on
+            })}
+          />
+          {timesClicked > 4 ? (
+            <div>
+              Whoa, you've clicked too much!
+              <br />
+              <button onClick={toggle.reset}>reset</button>
+            </div>
+          ) : timesClicked > 0 ? (
+            <div>Click count: {timesClicked}</div>
+          ) : null}
+        </div>
+      )}
+    />
+  );
+
+  // Lesson 15 - React context provider
+  renderContextProviderPart = () => (
+    <ToggleProvider>
+      <div>
+        <Header />
+        <Post />
+      </div>
+    </ToggleProvider>
+  );
+
   render() {
     const { timesClicked, on } = this.state;
     return (
       <div>
         <h2>
-          Advanced React Patterns by{' '}
+          <span role="img" aria-label="React Logo">⚛️</span> Advanced React Patterns by{' '}
           <a href="https://twitter.com/kentcdodds">@kentcdodds</a> 🐦
         </h2>
         {this.renderLinks()}
         <hr />
         <p>Render props:</p>
-        <Toggle
-          defaultOn={true}
-          onToggle={on => console.log('toggle', on)}
-          onReset={on => console.log('reset', on)}
-          render={toggle => (
-            <div>
-              <Switch
-                {...toggle.getTogglerProps({
-                  on: toggle.on
-                })}
-              />
-              {toggle.on ? "It's on!" : 'Off :('}
-              <br />
-              <button
-                {...toggle.getTogglerProps({
-                  onClick: () => alert('Clicked!')
-                })}
-              >
-                {toggle.on ? 'on' : 'off'}
-              </button>
-              <br />
-              <button onClick={() => toggle.reset()}>Reset</button>
-            </div>
-          )}
-        />
+        {this.renderRenderPropsPart()}
         <hr />
         <p>Controlled components example:</p>
-        {/* 14 Controlled component example */}
         <MyUpperCaseInput />
         <hr />
-        {/* 14 controlled-component-props */}
         <p>Conrolled components + controlled props:</p>
-        <Toggle
-          on={on}
-          onToggle={this.handleToggle}
-          onReset={this.handleReset}
-          render={toggle => (
-            <div>
-              <Switch
-                {...toggle.getTogglerProps({
-                  on: toggle.on
-                })}
-              />
-              {timesClicked > 4 ? (
-                <div>
-                  Whoa, you've clicked too much!
-                  <br />
-                  <button onClick={toggle.reset}>reset</button>
-                </div>
-              ) : timesClicked > 0 ? (
-                <div>Click count: {timesClicked}</div>
-              ) : null}
-            </div>
-          )}
-        />
-      <hr />
+        {this.renderControlledComponentsPart(on, timesClicked)}
+        <hr />
+        <p />
+        {this.renderContextProviderPart()}
+        <hr />
       </div>
     );
   }

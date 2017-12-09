@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import ToggleProvider from './ToggleProvider';
 import compose from './utils/compose';
 
 class Toggle extends React.Component {
@@ -56,6 +58,16 @@ class Toggle extends React.Component {
       getTogglerProps: this.getTogglerProps
     });
   }
+}
+
+export function ConnectedToggle(props, context) {
+  return props.render(
+    context[ToggleProvider.contextName],
+  )
+}
+ConnectedToggle.contextTypes = {
+  [ToggleProvider.contextName]:
+    PropTypes.object.isRequired,
 }
 
 export default Toggle;
