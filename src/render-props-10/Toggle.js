@@ -5,8 +5,15 @@ const compose = (...fns) => (...args) => fns.forEach(
 )
 
 class Toggle extends React.Component {
-  static defaultProps = { onToggle: () => {} };
-  state = { on: false };
+  static defaultProps = {
+    defaultOn: false,
+    onToggle: () => {},
+    onReset: () => {}
+  };
+  // #13 Component State Initializers
+  initialState = { on: this.props.defaultOn };
+  state = this.initialState;
+
   toggle = () =>
     this.setState(
       ({ on }) => ({ on: !on }),
@@ -14,6 +21,12 @@ class Toggle extends React.Component {
         this.props.onToggle(this.state.on);
       }
     );
+
+  reset = () => {
+    this.setState(this.initialState, () => {
+      this.props.onReset(this.state.on);
+    })
+  }
 
   // #11 Prop collections + #12 Prop getters
   getTogglerProps = ({ onClick, ...props } = {}) => {
@@ -28,6 +41,7 @@ class Toggle extends React.Component {
     return this.props.render({
       on: this.state.on,
       toggle: this.toggle,
+      reset: this.reset,
       getTogglerProps: this.getTogglerProps
     });
   }

@@ -5,19 +5,25 @@ import Switch from './Switch';
 function App() {
   return (
     <Toggle
+      defaultOn={true}
       onToggle={on => console.log('toggle', on)}
-      render={({ on, toggle, getTogglerProps }) => (
+      onReset={on => console.log('reset', on)}
+      render={toggle => (
         <div>
-          <Switch on={on} {...getTogglerProps()} />
-          {on ? 'on' : 'off'}
+          <Switch {...toggle.getTogglerProps({
+            on: toggle.on
+          })} />
+          {toggle.on ? 'on' : 'off'}
           <hr />
-          <button 
-            {...getTogglerProps({
+          <button
+            {...toggle.getTogglerProps({
               onClick: () => alert('hi')
             })}
           >
-            {on ? 'on' : 'off'}
+            {toggle.on ? 'on' : 'off'}
           </button>
+          <hr />
+          <button onClick={() => toggle.reset()}>Reset</button>
         </div>
       )}
     />
