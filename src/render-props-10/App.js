@@ -5,6 +5,7 @@ import Header from './internal/Header';
 import Post from './internal/Post';
 import Toggle from './Toggle';
 import ToggleProvider from './ToggleProvider';
+import UpdateBlocker from './internal/UpdateBlocker';
 
 class App extends React.Component {
   initialState = { timesClicked: 0, on: false };
@@ -104,7 +105,9 @@ class App extends React.Component {
     <ToggleProvider>
       <div>
         <Header />
-        <Post />
+        <UpdateBlocker>
+          <Post />
+        </UpdateBlocker>
       </div>
     </ToggleProvider>
   );
@@ -114,7 +117,10 @@ class App extends React.Component {
     return (
       <div>
         <h2>
-          <span role="img" aria-label="React Logo">⚛️</span> Advanced React Patterns by{' '}
+          <span role="img" aria-label="React Logo">
+            ⚛️
+          </span>{' '}
+          Advanced React Patterns by{' '}
           <a href="https://twitter.com/kentcdodds">@kentcdodds</a> 🐦
         </h2>
         {this.renderLinks()}
