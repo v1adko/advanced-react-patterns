@@ -10,9 +10,11 @@ function App() {
       onReset={on => console.log('reset', on)}
       render={toggle => (
         <div>
-          <Switch {...toggle.getTogglerProps({
-            on: toggle.on
-          })} />
+          <Switch
+            {...toggle.getTogglerProps({
+              on: toggle.on
+            })}
+          />
           {toggle.on ? 'on' : 'off'}
           <hr />
           <button

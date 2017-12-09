@@ -1,8 +1,5 @@
 import React from 'react';
-
-const compose = (...fns) => (...args) => fns.forEach(
-  fn => fn && fn(...args)
-)
+import compose from './utils/compose';
 
 class Toggle extends React.Component {
   static defaultProps = {
@@ -25,17 +22,17 @@ class Toggle extends React.Component {
   reset = () => {
     this.setState(this.initialState, () => {
       this.props.onReset(this.state.on);
-    })
-  }
+    });
+  };
 
   // #11 Prop collections + #12 Prop getters
   getTogglerProps = ({ onClick, ...props } = {}) => {
-      return {
-        'aria-expanded': this.state.on,
-         onClick: compose(onClick, this.toggle),
-         ...props
-      }
-    }
+    return {
+      'aria-expanded': this.state.on,
+      onClick: compose(onClick, this.toggle),
+      ...props
+    };
+  };
 
   render() {
     return this.props.render({
