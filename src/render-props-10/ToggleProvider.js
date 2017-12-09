@@ -4,7 +4,6 @@ import Toggle from './Toggle';
 
 class ToggleProvider extends React.Component {
   static channel = '__toggle_channel__';
-
   render() {
     const { children, ...remainingProps } = this.props;
     return (

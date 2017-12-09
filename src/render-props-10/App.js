@@ -3,9 +3,12 @@ import Switch from './internal/Switch';
 import MyUpperCaseInput from './internal/MyUpperCaseInput';
 import Header from './internal/Header';
 import Post from './internal/Post';
+import UpdateBlocker from './internal/UpdateBlocker';
+import StatePrinter from './internal/StatePrinter';
 import Toggle from './Toggle';
 import ToggleProvider from './ToggleProvider';
-import UpdateBlocker from './internal/UpdateBlocker';
+import MyInput from './MyInput';
+import MySwitch from './MySwitch';
 
 class App extends React.Component {
   initialState = { timesClicked: 0, on: false };
@@ -112,6 +115,36 @@ class App extends React.Component {
     </ToggleProvider>
   );
 
+  // Lesson 15 - React context provider
+  renderReduxPart = () => (
+    <ToggleProvider
+      initialState={{on: true}}
+      useRedux={true}
+      reducer={(state, action) => {
+        switch (action.type) {
+          case 'toggle':
+            return {
+              ...state,
+              on: action.value,
+            }
+          case 'input_change':
+            return {
+              ...state,
+              inputValue: action.value,
+            }
+          default:
+            return state
+        }
+      }}
+    >
+      <UpdateBlocker>
+        <MyInput />
+        <MySwitch />
+        <StatePrinter />
+      </UpdateBlocker>
+    </ToggleProvider>
+  );
+
   render() {
     const { timesClicked, on } = this.state;
     return (
@@ -125,17 +158,20 @@ class App extends React.Component {
         </h2>
         {this.renderLinks()}
         <hr />
-        <p>Render props:</p>
+        <h3>Render props:</h3>
         {this.renderRenderPropsPart()}
         <hr />
-        <p>Controlled components example:</p>
+        <h3>Controlled components example:</h3>
         <MyUpperCaseInput />
         <hr />
-        <p>Conrolled components + controlled props:</p>
+        <h3>Conrolled components + controlled props:</h3>
         {this.renderControlledComponentsPart(on, timesClicked)}
         <hr />
-        <p />
+        <h3>Context Providers:</h3>
         {this.renderContextProviderPart()}
+        <hr />
+        <h3>Redux + Render Props:</h3>
+        {this.renderReduxPart()}
         <hr />
       </div>
     );
