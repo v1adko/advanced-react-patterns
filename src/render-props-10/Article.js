@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConnectedToggle } from '../Toggle';
+import { ConnectedToggle } from './Toggle';
 
 function Article() {
   return (
@@ -22,7 +22,7 @@ function Article() {
           [
             'Without',
             toggle.on ? '🙋‍♂' : 'Kent',
-            `I wouldn't know Advanced React Patterns so`,
+            `I wouldn't know Advanced React Patterns, so`,
             toggle.on ? '🙏' : 'thanks',
             toggle.on ? '🙋‍♂️️' : 'Kent C. Dodds!'
           ].join(' ')

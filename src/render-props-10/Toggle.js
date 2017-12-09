@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 import ToggleProvider from './ToggleProvider';
 import compose from './utils/compose';
 
@@ -61,13 +62,29 @@ class Toggle extends React.Component {
 }
 
 export function ConnectedToggle(props, context) {
-  return props.render(
-    context[ToggleProvider.contextName],
-  )
+  return props.render(context[ToggleProvider.contextName]);
 }
 ConnectedToggle.contextTypes = {
-  [ToggleProvider.contextName]:
-    PropTypes.object.isRequired,
+  [ToggleProvider.contextName]: PropTypes.object.isRequired
+};
+
+// 16 HOC with Render Props (just like in Lessons 5 - 10)
+export function withToggle(Component) {
+  function Wrapper(props, context) {
+    const { innerRef, ...remainingProps } = props;
+    return (
+      <ConnectedToggle
+        render={toggle => (
+          <Component {...remainingProps} toggle={toggle} ref={innerRef} />
+        )}
+      />
+    );
+  }
+  Wrapper.displayName = `withToggle(${Component.displayName ||
+    Component.name})`;
+  Wrapper.propTypes = { innerRef: PropTypes.func };
+  Wrapper.WrappedComponent = Component;
+  return hoistNonReactStatics(Wrapper, Component);
 }
 
 export default Toggle;

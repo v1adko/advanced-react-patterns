@@ -1,7 +1,7 @@
 {
   "name": "advanced-react-patterns",
   "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
   "dependencies": {
     "hoist-non-react-statics": "^2.3.1",
     "react": "^16.2.0",

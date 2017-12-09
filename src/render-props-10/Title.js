@@ -1,5 +1,5 @@
 import React from 'react';
-import { ConnectedToggle } from '../Toggle';
+import { ConnectedToggle } from './Toggle';
 import Subtitle from './Subtitle';
 
 function Title() {
