@@ -7,9 +7,19 @@
 }
 body {
   font-family: 'Antic Slab', serif;
+  margin: 0;
+  padding: 0;
 }
 hr {
-  width: 100%;
+  width: 20%;
+  min-width: 300px;
+  margin: 20px auto;
+}
+h4 {
+  margin: 5px
+}
+button {
+  margin: 5px;
 }
 /*
 toggle styles copied and modified from

@@ -14,12 +14,12 @@ class MyUpperCaseInput extends React.Component {
     return (
       <div>
         <label>
-          Upper:
+          Upper:&nbsp;
           <input value={upperValue} onChange={this.handleChange} />
         </label>
         <br />
         <label>
-          Lower:
+          Lower:&nbsp;
           <input value={lowerValue} onChange={this.handleChange} />
         </label>
       </div>
