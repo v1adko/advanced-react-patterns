@@ -6,12 +6,18 @@ function App() {
   return (
     <Toggle
       onToggle={on => console.log('toggle', on)}
-      render={({ on, toggle, togglerProps }) => (
+      render={({ on, toggle, getTogglerProps }) => (
         <div>
-          <Switch on={on} {...togglerProps} />
+          <Switch on={on} {...getTogglerProps()} />
           {on ? 'on' : 'off'}
           <hr />
-          <button {...togglerProps}>{on ? 'on' : 'off'}</button>
+          <button 
+            {...getTogglerProps({
+              onClick: () => alert('hi')
+            })}
+          >
+            {on ? 'on' : 'off'}
+          </button>
         </div>
       )}
     />
